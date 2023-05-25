@@ -9,18 +9,17 @@ import (
 const alphabet = "abcdefghijklmnopqrstuvwxyz"
 
 func init() {
-	rand.Seed(time.Now().UnixNano())
+	rand.New(rand.NewSource(time.Now().UnixNano()))
 }
 
 // RandomInt generates a random integer between min and max
 func RandomInt(min, max int64) int64 {
-	return min + rand.Int63n(max-min+1) // 0 -> max - min
+	return min + rand.Int63n(max-min+1) // min -> max
 }
 
 // RandomString generates a random string of length n
 func RandomString(n int) string {
 	var sb strings.Builder
-
 	k := len(alphabet)
 
 	for i := 0; i < n; i++ {
@@ -31,7 +30,7 @@ func RandomString(n int) string {
 	return sb.String()
 }
 
-// RandomNumber generates a random owner name
+// RandomOwner generates a random owner name
 func RandomOwner() string {
 	return RandomString(6)
 }
