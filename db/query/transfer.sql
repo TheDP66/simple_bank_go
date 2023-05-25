@@ -15,7 +15,7 @@ WHERE id = $1 LIMIT 1;
 SELECT * FROM transfers
 WHERE 
     from_account_id = $1 OR
-    to_account_id = $2m
+    to_account_id = $2
 ORDER BY id
 LIMIT $3
 OFFSET $4;
