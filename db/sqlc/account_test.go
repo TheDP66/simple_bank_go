@@ -3,6 +3,7 @@ package db
 import (
 	"context"
 	"database/sql"
+	"fmt"
 	"testing"
 	"time"
 
@@ -85,16 +86,19 @@ func TestListAccounts(t *testing.T) {
 	for i := 0; i < 10; i++ {
 		lastAccount = createRandomAccount(t)
 	}
+	fmt.Println("lastAccount: ", lastAccount)
 
 	arg := ListAccountsParams{
 		// Owner:  lastAccount.Owner,
 		Limit:  5,
 		Offset: 0,
 	}
+	fmt.Println("arg: ", arg)
 
 	accounts, err := testQueries.ListAccounts(context.Background(), arg)
 	require.NoError(t, err)
 	require.NotEmpty(t, accounts)
+	fmt.Println("accounts: ", accounts)
 
 	for _, account := range accounts {
 		require.NotEmpty(t, account)
