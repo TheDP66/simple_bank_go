@@ -45,6 +45,16 @@ Run migration
 migrate -path db/migration -database "postgresql://root:admin@localhost:5432/simple_bank?sslmode=disable" -verbose up
 ```
 
+Note:
+
+- if you get this error while migrating
+
+```bash
+error: Dirty database version 2. Fix and force version.
+```
+
+Open database (dbeaver) > field schema_migrations > uncheck the dirty field
+
 ## Generate query
 
 Edit file on directory db/query. Follow the query formatting before creating a new query function. After done creating a new query you can run
