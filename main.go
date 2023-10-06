@@ -5,7 +5,7 @@ import (
 
 	"github.com/TheDP66/simple_bank_go/api"
 	db "github.com/TheDP66/simple_bank_go/db/sqlc"
-	"github.com/TheDP66/simple_bank_go/db/util"
+	"github.com/TheDP66/simple_bank_go/util"
 	_ "github.com/lib/pq"
 	"github.com/rs/zerolog/log"
 )

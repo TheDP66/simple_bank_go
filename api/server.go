@@ -4,8 +4,8 @@ import (
 	"fmt"
 
 	db "github.com/TheDP66/simple_bank_go/db/sqlc"
-	"github.com/TheDP66/simple_bank_go/db/util"
 	"github.com/TheDP66/simple_bank_go/token"
+	"github.com/TheDP66/simple_bank_go/util"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
 	"github.com/go-playground/validator/v10"
