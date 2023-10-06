@@ -2,7 +2,6 @@ package db
 
 import (
 	"context"
-	"fmt"
 	"testing"
 	"time"
 
@@ -22,8 +21,6 @@ func createRandomUser(t *testing.T) User {
 	}
 
 	user, err := testQueries.CreateUser(context.Background(), arg)
-	fmt.Printf("arg: %v", arg.Username)
-	fmt.Printf("user: %v", user.Username)
 	require.NoError(t, err)
 	require.NotEmpty(t, user)
 

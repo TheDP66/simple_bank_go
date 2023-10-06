@@ -82,7 +82,7 @@ go get github.com/golang/mock/
 ## Create a new query flow
 
 1. Create a new query in db/query/user.sql
-2. Run "sqlc generate"
+2. Run "make sqlc"
 3. Buat test db/sqlc/user_test.go
-4. Run "Make mock"
+4. Run "make mock"
    - Update Querier interface
