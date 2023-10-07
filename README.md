@@ -89,6 +89,8 @@ go get github.com/golang/mock/
 
 ## Dockerize application
 
+# Dockerfile
+
 1. Create Dockerfile
 2. Run Dockerfile to create images
 
@@ -115,3 +117,14 @@ docker network connect bank-network postgres3.17
 ```bash
 docker run -t --name simplebank_prod --network bank-network -p 8080:8080 -e GIN_MODE=release -e DB_SOURCE="postgresql://root:admin@postgres3.17:5432/simple_bank?sslmode=disable" simplebank:latest
 ```
+
+# docker-compose.yaml
+
+1. Create file docker-compose.yaml
+2. Run using this command
+
+```bash
+docker compose up
+```
+
+- note: docker-compose.yaml run in group not like docker file
