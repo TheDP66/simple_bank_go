@@ -86,3 +86,32 @@ go get github.com/golang/mock/
 3. Buat test db/sqlc/user_test.go
 4. Run "make mock"
    - Update Querier interface
+
+## Dockerize application
+
+1. Create Dockerfile
+2. Run Dockerfile to create images
+
+```bash
+docker build -t simplebank:latest .
+```
+
+3. Create a new network in docker
+
+```bash
+docker network create bank-network
+```
+
+4. Connect container to network (so postgres container can communicate with simplebank container)
+
+```bash
+docker network connect bank-network postgres3.17
+```
+
+5. Run created images
+
+- For production use
+
+```bash
+docker run -t --name simplebank_prod --network bank-network -p 8080:8080 -e GIN_MODE=release -e DB_SOURCE="postgresql://root:admin@postgres3.17:5432/simple_bank?sslmode=disable" simplebank:latest
+```
