@@ -1,5 +1,4 @@
 #!/bin/sh
-# TODO: run "chmod +x wait-for.sh" for one time after creating this file
 
 # The MIT License (MIT)
 #
