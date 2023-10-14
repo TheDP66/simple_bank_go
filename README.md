@@ -79,6 +79,18 @@ If you got error run this command
 go get github.com/golang/mock/
 ```
 
+## Add a new feature
+1. Create a new branch
+```bash
+git checkout -b ft/dbdocs
+```
+2. Add and commit all changes
+3. Push to new branch
+```bash
+git push origin ft/dbdocs
+```
+
+
 ## Create a new query flow
 
 1. Create a new query in db/query/user.sql
@@ -86,6 +98,20 @@ go get github.com/golang/mock/
 3. Buat test db/sqlc/user_test.go
 4. Run "make mock"
    - Update Querier interface
+
+## Generate DB Documentation
+1. sudo apt install nodejs
+2. npm i -g dbdocs
+3. dbdocs login
+4. copy sql query from dbdiagram.io 
+5. create doc/db.dbml then paste
+7. dbdocs password --set dharma --project simple_bank
+6. dbdocs build doc/db.dbml
+8. visit dbdocs.io/... link
+9. Convert dbml to sql
+```bash
+dbml2sql --postgres -o  doc/schema.sql doc/db.dbml
+```
 
 ## Dockerize application
 
