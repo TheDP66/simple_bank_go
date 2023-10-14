@@ -1,5 +1,8 @@
 DB_URL=postgresql://root:admin@localhost:5432/simple_bank?sslmode=disable
 
+network:
+	docker network create bank-network
+
 postgres:
 	docker run --name postgres3.17 --network bank-network -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=admin -d postgres:alpine3.17
 
@@ -42,4 +45,8 @@ server:
 mock:
 	mockgen -package mockdb -destination db/mock/store.go github.com/TheDP66/simple_bank_go/db/sqlc Store
 
-.PHONY: postgres createdb dropdb migrateup migrateup1 migratedown migratedown1 sqlc test server
+proto:
+	rm -f pb/*.go 
+	protoc --proto_path=proto --go_out=pb --go_opt=paths=source_relative --go-grpc_out=pb --go-grpc_opt=paths=source_relative proto/*.proto
+
+.PHONY: network postgres createdb dropdb migrateup migrateup1 migratedown migratedown1 sqlc test server proto

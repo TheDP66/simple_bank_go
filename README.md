@@ -89,6 +89,10 @@ git checkout -b ft/dbdocs
 ```bash
 git push origin ft/dbdocs
 ```
+<<<<<<< HEAD
+=======
+4. Go to github merge request > Create pull request > Choose Squash and merge > Confirm squash merge > Delete branch
+>>>>>>> 4c4e6fe (Define gRPC API and generate Go code with protobuf)
 
 
 ## Create a new query flow
@@ -154,3 +158,26 @@ docker compose up
 ```
 
 - note: docker-compose.yaml run in group not like docker file
+
+### GRPC
+
+## OS Setup
+1. Go to [here](https://grpc.io/docs/protoc-installation/) and follow the instruction to instal protoc
+2. Click [here](https://grpc.io/docs/languages/go/quickstart/) and setup for Prerequisites
+3. Install vscode-proto3 extension in vscode
+4. In vscode > settings.json add this line
+```bash
+"protoc": {
+      "options": [
+          "--proto_path=protos",
+      ]
+   }
+``` 
+5. Click [here](https://stackoverflow.com/a/57730314) do the same but change .bash_profile to .bashrc
+
+## Create Proto Function
+1. Make file rpc_create_user.proto
+2. Create new file user.proto to define interface/class *optional
+3. Create new file rpc_create_user.proto to define request and response
+4. Import file and register function in service_simple_bank.proto
+5. Run make proto
