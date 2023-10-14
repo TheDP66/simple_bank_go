@@ -175,6 +175,12 @@ docker compose up
 ``` 
 5. Click [here](https://stackoverflow.com/a/57730314) do the same but change .bash_profile to .bashrc
 
+## gRPC Test Setup
+1. Download file [here](https://github.com/ktr0731/evans/releases)
+2. Extract and copy content to root project
+3. Run chmod +x ./evans
+4. Change script from evans to ./evans
+
 ## Create Proto Function
 1. Make file rpc_create_user.proto
 2. Create new file user.proto to define interface/class *optional
