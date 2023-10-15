@@ -124,7 +124,7 @@ func (server *Server) loginUser(ctx *gin.Context) {
 		return
 	}
 
-	sessions, err := server.store.CreateSession(ctx, db.CreateSessionParams{
+	session, err := server.store.CreateSession(ctx, db.CreateSessionParams{
 		ID:           refreshPayload.ID,
 		Username:     user.Username,
 		RefreshToken: refreshToken,
@@ -139,7 +139,7 @@ func (server *Server) loginUser(ctx *gin.Context) {
 	}
 
 	rsp := loginUserResponse{
-		SessionID:             sessions.ID,
+		SessionID:             session.ID,
 		AccessToken:           accessToken,
 		AccessTokenExpiresAt:  accessPayload.ExpiredAt,
 		RefreshToken:          refreshToken,
