@@ -6,7 +6,7 @@ network:
 postgres:
 	docker run --name postgres3.17 --network bank-network -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=admin -d postgres:alpine3.17
 
-postgreslocal:
+postgres_standalone:
 	docker run --name postgres3.17local -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=admin -d postgres:alpine3.17
 
 createdb:
@@ -47,9 +47,10 @@ mock:
 
 proto:
 	rm -f pb/*.go 
-	protoc --proto_path=proto --go_out=pb --go_opt=paths=source_relative --go-grpc_out=pb --go-grpc_opt=paths=source_relative proto/*.proto
+	protoc --proto_path=proto --go_out=pb --go_opt=paths=source_relative --go-grpc_out=pb --go-grpc_opt=paths=source_relative --grpc-gateway_out=pb --grpc-gateway_opt=paths=source_relative proto/*.proto
 
 evans:
-	./evans --host localhost --port 9009 -r repl
+	chmod +x ./evans
+	./evans --host localhost --port 9090 -r repl
 
-.PHONY: network postgres createdb dropdb migrateup migrateup1 migratedown migratedown1 sqlc test server proto
+.PHONY: network postgres createdb dropdb migrateup migrateup1 migratedown migratedown1 sqlc test server proto evans
