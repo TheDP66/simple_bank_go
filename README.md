@@ -208,4 +208,27 @@ google/api/http.proto
 google/api/httpbody.proto
 ```
 6. Follow [this](https://github.com/grpc-ecosystem/grpc-gateway#2-with-custom-annotations) instruction to service_simple_bank.proto
-7. Add ```--grpc-gateway_out=pb --grpc-gateway_opt=paths=source_relative``` to Makefile > proto
+7. Add ```--grpc-gateway_out=pb --grpc-gateway_opt=paths=source_relative \``` to Makefile > proto
+
+## Swagger Setup
+1. Add this command to Makefile > proto
+```bash
+--openapiv2_out=doc/swagger --openapiv2_opt=allow_merge=true merge_file_name=simple_bank \
+``` 
+2. Clone this project ```https://github.com/grpc-ecosystem/grpc-gateway.git```
+3. Create new directory in proto/protoc-gen-openapiv2/options
+4. Open directory in grpc-gateway/protoc-get-opnapiv2/options
+5. Copy all content to proto/protoc-gen-openapiv2/options (See step 3)
+6. Clone this project ```https://github.com/swagger-api/swagger-ui.git```
+7. Go to swagger-ui/dist copy all content to doc/swagger
+8. Find swagger-initializer.js in doc/swagger
+9. Update url (line: 6) value to simple_bank.swagger.json (generated from make proto)
+10. Update main.go (find swagger)
+
+## Statik Setup
+1. Copy ```_ "github.com/rakyll/statik"``` to tools/tools.go
+2. Run ```go install github.com/rakyll/statik```
+3. Add this command in Makefile > proto
+```
+statik -src=./doc/swagger -dest=./doc
+```
