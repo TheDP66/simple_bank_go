@@ -180,6 +180,13 @@ docker compose up
 2. Extract and copy content to root project
 3. Run chmod +x ./evans
 4. Change script from evans to ./evans
+5. Run show service
+   * If you cant find your service try run 
+      ```bash
+      show package
+      package pb
+      service SimpleBank
+      ```
 
 ## Create Proto Function
 1. Make file rpc_create_user.proto
@@ -187,3 +194,18 @@ docker compose up
 3. Create new file rpc_create_user.proto to define request and response
 4. Import file and register function in service_simple_bank.proto
 5. Run make proto
+
+## gRPC Gateway Setup
+1. Click [here](https://github.com/grpc-ecosystem/grpc-gateway#compile-from-source)
+2. Follow the Installation > Compile from source instruction
+3. Clone this project [link](https://github.com/googleapis/googleapis)
+4. Create directory inside proto/google/api
+5. Copy this files from cloned repository to proto/google/api folder
+```bash
+google/api/annotations.proto
+google/api/field_behavior.proto
+google/api/http.proto
+google/api/httpbody.proto
+```
+6. Follow [this](https://github.com/grpc-ecosystem/grpc-gateway#2-with-custom-annotations) instruction to service_simple_bank.proto
+7. Add ```--grpc-gateway_out=pb --grpc-gateway_opt=paths=source_relative``` to Makefile > proto
