@@ -232,3 +232,7 @@ google/api/httpbody.proto
 ```
 statik -src=./doc/swagger -dest=./doc
 ```
+4. Add this command in main.go > import() 
+```
+	_ "github.com/TheDP66/simple_bank_go/doc/statik"
+```
