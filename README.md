@@ -89,10 +89,7 @@ git checkout -b ft/dbdocs
 ```bash
 git push origin ft/dbdocs
 ```
-<<<<<<< HEAD
-=======
 4. Go to github merge request > Create pull request > Choose Squash and merge > Confirm squash merge > Delete branch
->>>>>>> 4c4e6fe (Define gRPC API and generate Go code with protobuf)
 
 
 ## Create a new query flow

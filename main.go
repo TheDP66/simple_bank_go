@@ -12,6 +12,9 @@ import (
 	"github.com/TheDP66/simple_bank_go/gapi"
 	"github.com/TheDP66/simple_bank_go/pb"
 	"github.com/TheDP66/simple_bank_go/util"
+	"github.com/golang-migrate/migrate/v4"
+	_ "github.com/golang-migrate/migrate/v4/database/postgres"
+	_ "github.com/golang-migrate/migrate/v4/source/file"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	_ "github.com/lib/pq"
 	"github.com/rakyll/statik/fs"
@@ -33,6 +36,8 @@ func main() {
 
 	}
 
+	runDBMigration(config.MigrationURL, config.DBSource)
+
 	store := db.NewStore(conn)
 
 	// ? Run server using Gin
@@ -42,6 +47,19 @@ func main() {
 	go runGatewayServer(config, store)
 	// ? Run server using gRPC
 	runGrpcServer(config, store)
+}
+
+func runDBMigration(migrationURL string, dbSource string) {
+	migration, err := migrate.New(migrationURL, dbSource)
+	if err != nil {
+		log.Fatal().Err(err).Msg("cannot create new migrate instance")
+	}
+
+	if err := migration.Up(); err != nil && err != migrate.ErrNoChange {
+		log.Fatal().Err(err).Msg("failed to run migrate up")
+	}
+
+	log.Info().Msg("db migrated successfully")
 }
 
 func runGinServer(config util.Config, store db.Store) {
