@@ -51,11 +51,11 @@ proto:
 	protoc --proto_path=proto --go_out=pb --go_opt=paths=source_relative --go-grpc_out=pb --go-grpc_opt=paths=source_relative \
 	--grpc-gateway_out=pb --grpc-gateway_opt=paths=source_relative \
 	--openapiv2_out=doc/swagger --openapiv2_opt=allow_merge=true,merge_file_name=simple_bank \
-	proto/*.proto
+	proto/*.proto --experimental_allow_proto3_optional
 	statik -src=./doc/swagger -dest=./doc
 
 evans:
 	chmod +x ./evans
 	./evans --host localhost --port 9090 --package pb --service SimpleBank -r repl
 
-.PHONY: network postgres createdb dropdb migrateup migrateup1 migratedown migratedown1 sqlc test server proto evans
+.PHONY: network postgres postgres_standalone createdb dropdb migrateup migrateup1 migratedown migratedown1 sqlc test server mock proto evans
