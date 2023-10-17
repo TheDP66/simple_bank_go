@@ -58,4 +58,4 @@ evans:
 	chmod +x ./evans
 	./evans --host localhost --port 9090 --package pb --service SimpleBank -r repl
 
-.PHONY: network postgres createdb dropdb migrateup migrateup1 migratedown migratedown1 sqlc test server proto evans
+.PHONY: network postgres postgres_standalone createdb dropdb migrateup migrateup1 migratedown migratedown1 sqlc test server proto evans

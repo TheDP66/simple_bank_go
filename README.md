@@ -65,6 +65,20 @@ sqlc generate
 
 A new/updated file will be generated in folder db/sqlc
 
+## Setup SQLC
+
+1. Click [here](https://docs.sqlc.dev/en/latest/overview/install.html), follow to install sqlc
+2. Create `sqlc.yaml` file in root folder
+3. Copy this project `sqlc.yaml` content to your `sqlc.yaml` project
+4. Run this command to create migration
+
+```bash
+migrate create -ext sql -dir db/migration -seq init_schema
+```
+
+5. Create new query file in db/query
+6. Run `sqlc generate` or `make sqlc`
+
 ## Generate Mock
 
 To generate a mock implementation run this command
@@ -80,17 +94,21 @@ go get github.com/golang/mock/
 ```
 
 ## Add a new feature
+
 1. Create a new branch
+
 ```bash
 git checkout -b ft/dbdocs
 ```
+
 2. Add and commit all changes
 3. Push to new branch
+
 ```bash
 git push origin ft/dbdocs
 ```
-4. Go to github merge request > Create pull request > Choose Squash and merge > Confirm squash merge > Delete branch
 
+4. Go to github merge request > Create pull request > Choose Squash and merge > Confirm squash merge > Delete branch
 
 ## Create a new query flow
 
@@ -101,15 +119,17 @@ git push origin ft/dbdocs
    - Update Querier interface
 
 ## Generate DB Documentation
+
 1. sudo apt install nodejs
 2. npm i -g dbdocs
 3. dbdocs login
-4. copy sql query from dbdiagram.io 
+4. copy sql query from dbdiagram.io
 5. create doc/db.dbml then paste
-7. dbdocs password --set dharma --project simple_bank
-6. dbdocs build doc/db.dbml
+6. dbdocs password --set dharma --project simple_bank
+7. dbdocs build doc/db.dbml
 8. visit dbdocs.io/... link
 9. Convert dbml to sql
+
 ```bash
 dbml2sql --postgres -o  doc/schema.sql doc/db.dbml
 ```
@@ -159,77 +179,92 @@ docker compose up
 ### GRPC
 
 ## OS Setup
+
 1. Go to [here](https://grpc.io/docs/protoc-installation/) and follow the instruction to instal protoc
 2. Click [here](https://grpc.io/docs/languages/go/quickstart/) and setup for Prerequisites
 3. Install vscode-proto3 extension in vscode
 4. In vscode > settings.json add this line
+
 ```bash
 "protoc": {
       "options": [
           "--proto_path=protos",
       ]
    }
-``` 
+```
+
 5. Click [here](https://stackoverflow.com/a/57730314) do the same but change .bash_profile to .bashrc
 
 ## gRPC Test Setup
+
 1. Download file [here](https://github.com/ktr0731/evans/releases)
 2. Extract and copy content to root project
 3. Run chmod +x ./evans
 4. Change script from evans to ./evans
 5. Run show service
-   * If you cant find your service try run 
-      ```bash
-      show package
-      package pb
-      service SimpleBank
-      ```
+   - If you cant find your service try run
+     ```bash
+     show package
+     package pb
+     service SimpleBank
+     ```
 
 ## Create Proto Function
+
 1. Make file rpc_create_user.proto
-2. Create new file user.proto to define interface/class *optional
+2. Create new file user.proto to define interface/class \*optional
 3. Create new file rpc_create_user.proto to define request and response
 4. Import file and register function in service_simple_bank.proto
 5. Run make proto
 
 ## gRPC Gateway Setup
+
 1. Click [here](https://github.com/grpc-ecosystem/grpc-gateway#compile-from-source)
 2. Follow the Installation > Compile from source instruction
 3. Clone this project [link](https://github.com/googleapis/googleapis)
 4. Create directory inside proto/google/api
 5. Copy this files from cloned repository to proto/google/api folder
+
 ```bash
 google/api/annotations.proto
 google/api/field_behavior.proto
 google/api/http.proto
 google/api/httpbody.proto
 ```
+
 6. Follow [this](https://github.com/grpc-ecosystem/grpc-gateway#2-with-custom-annotations) instruction to service_simple_bank.proto
-7. Add ```--grpc-gateway_out=pb --grpc-gateway_opt=paths=source_relative \``` to Makefile > proto
+7. Add `--grpc-gateway_out=pb --grpc-gateway_opt=paths=source_relative \` to Makefile > proto
 
 ## Swagger Setup
+
 1. Add this command to Makefile > proto
+
 ```bash
 --openapiv2_out=doc/swagger --openapiv2_opt=allow_merge=true merge_file_name=simple_bank \
-``` 
-2. Clone this project ```https://github.com/grpc-ecosystem/grpc-gateway.git```
+```
+
+2. Clone this project `https://github.com/grpc-ecosystem/grpc-gateway.git`
 3. Create new directory in proto/protoc-gen-openapiv2/options
 4. Open directory in grpc-gateway/protoc-get-opnapiv2/options
 5. Copy all content to proto/protoc-gen-openapiv2/options (See step 3)
-6. Clone this project ```https://github.com/swagger-api/swagger-ui.git```
+6. Clone this project `https://github.com/swagger-api/swagger-ui.git`
 7. Go to swagger-ui/dist copy all content to doc/swagger
 8. Find swagger-initializer.js in doc/swagger
 9. Update url (line: 6) value to simple_bank.swagger.json (generated from make proto)
 10. Update main.go (find swagger)
 
 ## Statik Setup
-1. Copy ```_ "github.com/rakyll/statik"``` to tools/tools.go
-2. Run ```go install github.com/rakyll/statik```
+
+1. Copy `_ "github.com/rakyll/statik"` to tools/tools.go
+2. Run `go install github.com/rakyll/statik`
 3. Add this command in Makefile > proto
+
 ```
 statik -src=./doc/swagger -dest=./doc
 ```
-4. Add this command in main.go > import() 
+
+4. Add this command in main.go > import()
+
 ```
 	_ "github.com/TheDP66/simple_bank_go/doc/statik"
 ```
