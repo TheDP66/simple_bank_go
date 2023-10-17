@@ -182,6 +182,14 @@ docker compose up
 
 1. Go to [here](https://grpc.io/docs/protoc-installation/) and follow the instruction to instal protoc
 2. Click [here](https://grpc.io/docs/languages/go/quickstart/) and setup for Prerequisites
+   - if found an error try to remove all package in step 1 & 2 then install using snap for higher version
+   ```bash
+   sudo snap install protobuf --classic
+   ```
+   - Add this line in Makefile > proto after `proto/*.proto`
+   ```bash
+   --experimental_allow_proto3_optional
+   ```
 3. Install vscode-proto3 extension in vscode
 4. In vscode > settings.json add this line
 
