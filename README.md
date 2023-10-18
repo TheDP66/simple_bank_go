@@ -276,3 +276,8 @@ statik -src=./doc/swagger -dest=./doc
 ```
 	_ "github.com/TheDP66/simple_bank_go/doc/statik"
 ```
+
+## Asynq Redis Setup
+
+1. run `go get -u github.com/hibiken/asynq`
+2. Create `worker/distributor.go`
