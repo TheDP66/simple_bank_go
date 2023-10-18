@@ -280,4 +280,6 @@ statik -src=./doc/swagger -dest=./doc
 ## Asynq Redis Setup
 
 1. run `go get -u github.com/hibiken/asynq`
-2. Create `worker/distributor.go`
+2. Copy `worker/distributor.go` and `worker/processor.go`
+3. Create new worker `worker/task_send_verify_email.go`
+4. Run `make redis_standalone` 

@@ -2,11 +2,14 @@ package gapi
 
 import (
 	"context"
+	"time"
 
 	db "github.com/TheDP66/simple_bank_go/db/sqlc"
 	"github.com/TheDP66/simple_bank_go/pb"
 	"github.com/TheDP66/simple_bank_go/util"
 	"github.com/TheDP66/simple_bank_go/val"
+	"github.com/TheDP66/simple_bank_go/worker"
+	"github.com/hibiken/asynq"
 	"google.golang.org/genproto/googleapis/rpc/errdetails"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -39,7 +42,22 @@ func (server *Server) CreateUser(ctx context.Context, req *pb.CreateUserRequest)
 		return nil, status.Errorf(codes.Internal, "failed to create user: %s", err)
 	}
 
-	// Send verification email
+	// TODO: use db transaction
+	taskPayload := &worker.PayloadSendVerifyEmail{
+		Username: user.Username,
+	}
+
+	// Redis worker option
+	opts := []asynq.Option{
+		asynq.MaxRetry(10),
+		asynq.ProcessIn(10 * time.Second),
+		asynq.Queue(worker.QueueCritical),
+	}
+
+	err = server.taskDistributor.DistributeTaskSendVerifyEmail(ctx, taskPayload, opts...)
+	if err != nil {
+		return nil, status.Errorf(codes.Internal, "failed to distribute task to send verify email: %s", err)
+	}
 
 	rsp := &pb.CreateUserResponse{
 		User: convertUser(user),

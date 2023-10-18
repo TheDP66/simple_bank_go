@@ -58,4 +58,7 @@ evans:
 	chmod +x ./evans
 	./evans --host localhost --port 9090 --package pb --service SimpleBank -r repl
 
-.PHONY: network postgres postgres_standalone createdb dropdb migrateup migrateup1 migratedown migratedown1 sqlc test server mock proto evans
+redis_standalone:
+	docker run --name redis3.17local -p 6379:6379 -d redis:alpine3.17
+
+.PHONY: network postgres postgres_standalone createdb dropdb migrateup migrateup1 migratedown migratedown1 sqlc test server mock proto evans redis_standalone
