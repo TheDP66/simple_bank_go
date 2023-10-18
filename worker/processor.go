@@ -5,6 +5,8 @@ import (
 
 	db "github.com/TheDP66/simple_bank_go/db/sqlc"
 	"github.com/hibiken/asynq"
+	"github.com/redis/go-redis/v9"
+	"github.com/rs/zerolog/log"
 )
 
 const (
@@ -22,7 +24,10 @@ type RedisTaskProcessor struct {
 	store  db.Store
 }
 
-func NewReidsTaskProcessor(redisOpt asynq.RedisClientOpt, store db.Store) TaskProcessor {
+func NewRedisTaskProcessor(redisOpt asynq.RedisClientOpt, store db.Store) TaskProcessor {
+	logger := NewLogger()
+	redis.SetLogger(logger)
+
 	server := asynq.NewServer(
 		redisOpt,
 		asynq.Config{
@@ -30,6 +35,10 @@ func NewReidsTaskProcessor(redisOpt asynq.RedisClientOpt, store db.Store) TaskPr
 				QueueCritical: 10,
 				QueueDefault:  5,
 			},
+			ErrorHandler: asynq.ErrorHandlerFunc(func(ctx context.Context, task *asynq.Task, err error) {
+				log.Error().Err(err).Str("type", task.Type()).Bytes("payload", task.Payload()).Msg("process task failed")
+			}),
+			Logger: logger,
 		},
 	)
 
