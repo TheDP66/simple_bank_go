@@ -41,7 +41,7 @@ func (server *Server) CreateUser(ctx context.Context, req *pb.CreateUserRequest)
 			// Redis worker option
 			opts := []asynq.Option{
 				asynq.MaxRetry(10),
-				asynq.ProcessIn(10 * time.Second),
+				asynq.ProcessIn(10 * time.Second), // important
 				asynq.Queue(worker.QueueCritical),
 			}
 
