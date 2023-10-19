@@ -11,6 +11,7 @@ import (
 	db "github.com/TheDP66/simple_bank_go/db/sqlc"
 	_ "github.com/TheDP66/simple_bank_go/doc/statik"
 	"github.com/TheDP66/simple_bank_go/gapi"
+	"github.com/TheDP66/simple_bank_go/mail"
 	"github.com/TheDP66/simple_bank_go/pb"
 	"github.com/TheDP66/simple_bank_go/util"
 	"github.com/TheDP66/simple_bank_go/worker"
@@ -56,7 +57,7 @@ func main() {
 	taskDistributor := worker.NewRedisTaskDistributor(redisOpt)
 
 	// ? Run Redis
-	go runTaskProcessor(redisOpt, store)
+	go runTaskProcessor(config, redisOpt, store)
 
 	// ? Run server using Gin
 	// runGinServer(config, store)
@@ -80,8 +81,9 @@ func runDBMigration(migrationURL string, dbSource string) {
 	log.Info().Msg("db migrated successfully")
 }
 
-func runTaskProcessor(redisOpt asynq.RedisClientOpt, store db.Store) {
-	taskProcessor := worker.NewRedisTaskProcessor(redisOpt, store)
+func runTaskProcessor(config util.Config, redisOpt asynq.RedisClientOpt, store db.Store) {
+	mailer := mail.NewGmailSender(config.EmailSenderName, config.EmailSenderAddress, config.EmailSenderPassword)
+	taskProcessor := worker.NewRedisTaskProcessor(redisOpt, store, mailer)
 	log.Info().Msg("start task processor")
 
 	err := taskProcessor.Start()
@@ -118,7 +120,7 @@ func runGrpcServer(config util.Config, store db.Store, taskDistributor worker.Ta
 		log.Fatal().Err(err).Msg("cannot create listener")
 	}
 
-	log.Printf("start gRPC server at %s", listener.Addr().String())
+	log.Info().Msgf("start gRPC server at %s", listener.Addr().String())
 	err = grpcServer.Serve(listener)
 	if err != nil {
 		log.Fatal().Err(err).Msg("cannot create gRPC server")
