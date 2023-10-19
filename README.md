@@ -282,4 +282,8 @@ statik -src=./doc/swagger -dest=./doc
 1. run `go get -u github.com/hibiken/asynq`
 2. Copy `worker/distributor.go` and `worker/processor.go`
 3. Create new worker `worker/task_send_verify_email.go`
-4. Run `make redis_standalone` 
+4. Run `make redis_standalone`
+
+## Setup Email Verification
+1. Run `go get github.com/jordan-wright/email`
+2. Create `mail/sender.go`
