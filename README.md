@@ -7,6 +7,21 @@ make postgres
 make createdb
 ```
 
+## vsCode Setup
+1. Open `settings.json`
+2. Paste 
+```bash
+"go.testFlags": [
+  "-v",
+  "-count=1",
+],
+"protoc": {
+    "options": [
+        "--proto_path=protos",
+    ]
+},
+```
+
 ## Getting started
 
 Follow this step to run this program

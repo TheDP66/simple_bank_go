@@ -8,6 +8,12 @@ import (
 )
 
 func TestSendEmailWithGmail(t *testing.T) {
+	// ? skip test from make test
+	// ? can only run test manually
+	if testing.Short() {
+		t.Skip()
+	}
+
 	config, err := util.LoadConfig("..")
 	require.NoError(t, err)
 
