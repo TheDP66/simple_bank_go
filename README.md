@@ -292,3 +292,10 @@ overrides:
 10. Find `sql.ErrNoRows` and replace with `db.ErrRecordNotFound`
 11. Find `err == db.ErrRecordNotFound` and replace with `errors.Is(err, db.ErrRecordNotFound)`
 12. Find `db.ErrRecordNotFound.Error()` and replace with `ErrRecordNotFound.Error()`
+
+## Update GO Version or add new container
+1. Update `docker-compose.yaml`
+2. Update `go.mod`
+3. Update `Dockerfile`
+4. Run `go mod tidy`
+5. Update `.github > workflows` script for Github Action
