@@ -51,7 +51,7 @@ func (processor *RedisTaskProcessor) ProcessTaskSendVerifyEmail(ctx context.Cont
 		// ? if an user not yet comitted
 		// ? redis will retry for an amount of time
 		// ? this COMMENTED function to skip redis retry
-		// if err == sql.ErrNoRows {
+		// if errors.Is(err, db.ErrRecordNotFound) {
 		// 	return fmt.Errorf("user doesn't exist: %w", asynq.SkipRetry)
 		// }
 		return fmt.Errorf("faield to get user: %w", err)

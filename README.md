@@ -270,3 +270,25 @@ statik -src=./doc/swagger -dest=./doc
 ## Setup Email Verification
 1. Run `go get github.com/jordan-wright/email`
 2. Create `mail/sender.go`
+
+## Migrate Postgres Library from lib/pq to pgx/v5
+1. Update `sqlc.yaml`, add this line in sql > gen > go (default is remove)
+```bash
+sql_package: "pgx/v5"
+overrides:
+   - db_type: "timestamptz"
+     go_type: "time.Time" 
+   - db_type: "uuid"
+     go_type: "github.com/google/uuid.UUID"
+```
+2. Change `sql.NullBool` to `pgtype.Bool`, make sure to import `pgx/v5` package
+3. Change `sql.NullString` to `pgtype.Text`, make sure to import `pgx/v5` package
+4. Change `sql.NullTime` to `pgtype.Text`, make sure to import `pgx/v5` package
+5. See `db/sqlc/store.go` file
+6. See `db/sqlc/exec_tx.go` file
+7. See `db/sqlc/main_test.go` file
+8. Change `testQueries` to `testStore`
+9. See `db/sqlc/store_test.go` file, remove `store := NewStore(testDB)` line then change `store.` to `testStore.`
+10. Find `sql.ErrNoRows` and replace with `db.ErrRecordNotFound`
+11. Find `err == db.ErrRecordNotFound` and replace with `errors.Is(err, db.ErrRecordNotFound)`
+12. Find `db.ErrRecordNotFound.Error()` and replace with `ErrRecordNotFound.Error()`
