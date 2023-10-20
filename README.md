@@ -299,3 +299,7 @@ overrides:
 3. Update `Dockerfile`
 4. Run `go mod tidy`
 5. Update `.github > workflows` script for Github Action
+
+## Add new role
+1. Add new role in `util/role.go`
+2. See example file in `gapi/rpc_update_user.go`
