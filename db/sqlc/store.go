@@ -6,11 +6,12 @@ import (
 	"fmt"
 )
 
-// Store provides all functions to execute db queries and transactions
+// Store provides all functions that can be rollback
 type Store interface {
 	Querier
 	TransferTx(ctx context.Context, arg TransferTxParams) (TransferTxResult, error)
 	CreateUserTx(ctx context.Context, arg CreateUserTxParams) (CreateUserTxResult, error)
+	VerifyEmailTx(ctx context.Context, arg VerifyEmailTxParams) (VerifyEmailTxResult, error)
 }
 
 // SQLStore provides all functions to execute SQL queries and transactions
