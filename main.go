@@ -30,7 +30,6 @@ import (
 )
 
 func main() {
-
 	config, err := util.LoadConfig(".")
 	if err != nil {
 		log.Fatal().Err(err).Msg("cannot load config:")
@@ -46,7 +45,6 @@ func main() {
 	// conn, err := sql.Open(config.DBDriver, config.DBSource)
 	if err != nil {
 		log.Fatal().Err(err).Msg("cannot connect to db")
-
 	}
 
 	runDBMigration(config.MigrationURL, config.DBSource)
