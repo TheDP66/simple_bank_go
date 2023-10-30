@@ -1,13 +1,17 @@
 ## Initialize
+
 Run this command sequentially from root of this project
+
 ```bash
 make postgres
 make createdb
 ```
 
 ## vsCode Setup
+
 1. Open `settings.json`
-2. Paste 
+2. Paste
+
 ```bash
 "go.testFlags": [
   "-v",
@@ -21,24 +25,31 @@ make createdb
 ```
 
 ## Getting started
+
 Follow this step to run this program
+
 1. Run Docker Desktop
 2. Run PostgresQL on docker. Run this command if you have any problem
+
 ```bash
 sudo fuser -k 5432/tcp
 ```
+
 3. Run dbeaver-ce
 4. Start a connection to postgres - localhost:5432
 5. Open Databases
 6. Find simple_bank
 
 ## Design and generate database
+
 Follow this step to design and generate database
+
 1. Find file on /DB/Simple bank - dbdiagram.io, copy content
 2. Open https://dbdiagram.io/ and paste content to left panel
 3. After done, find Export button on upper bar then press Export to PostgreSQL
 
 ## Update database
+
 1. Modify table structure in `doc/db.dbml`
 2. Run `make db_schema`
 3. Generated file can be seen in `doc/schema.sql`
@@ -47,62 +58,86 @@ Follow this step to design and generate database
 5. Setup new sql query (see `Create a new query flow` section)
 
 ## Golang-migrate
+
 Create a migration
+
 ```bash
 migrate create -ext sql -dir db/migration -seq init_schema
 ```
+
 Run migration
+
 ```bash
 migrate -path db/migration -database "postgresql://root:admin@localhost:5432/simple_bank?sslmode=disable" -verbose up
 ```
+
 Note:
+
 - if you get this error while migrating
+
 ```bash
 error: Dirty database version 2. Fix and force version.
 ```
+
 Open database (dbeaver) > field schema_migrations > uncheck the dirty field
 
 ## Generate query
+
 Edit file on directory db/query. Follow the query formatting before creating a new query function. After done creating a new query you can run
+
 ```bash
 sqlc generate
 ```
+
 A new/updated file will be generated in folder db/sqlc
 
 ## Setup SQLC
+
 1. Click [here](https://docs.sqlc.dev/en/latest/overview/install.html), follow to install sqlc
 2. Create `sqlc.yaml` file in root folder
 3. Copy this project `sqlc.yaml` content to your `sqlc.yaml` project
 4. Run this command to create migration
+
 ```bash
 migrate create -ext sql -dir db/migration -seq init_schema
 ```
+
 5. Create new query file in db/query
 6. Run `sqlc generate` or `make sqlc`
 
 ## Generate Mock
+
 To generate a mock implementation run this command
+
 ```bash
 mockgen -package mockdb -destination db/mock/store.go github.com/TheDP66/simple_bank_go/db/sqlc Store
 ```
+
 If you got error run this command
+
 ```bash
 go get github.com/golang/mock/
 ```
 
 ## Add a new feature
+
 1. Create a new branch
+
 ```bash
 git checkout -b ft/dbdocs
 ```
+
 2. Add and commit all changes
 3. Push to new branch
+
 ```bash
 git push origin ft/dbdocs
 ```
+
 4. Go to github merge request > Create pull request > Choose Squash and merge > Confirm squash merge > Delete branch
 
 ## Create a new query flow
+
 1. Create a new query in db/query/user.sql
 2. Run "make sqlc"
 3. Buat test db/sqlc/user_test.go
@@ -110,8 +145,9 @@ git push origin ft/dbdocs
    - Update Querier interface
 
 ## Generate DB Documentation
+
 1. sudo apt install nodejs
-2. npm i -g dbdocs
+2. npm i -g dbdocs @dbml/cli
 3. dbdocs login
 4. copy sql query from dbdiagram.io
 5. create doc/db.dbml then paste
@@ -119,21 +155,28 @@ git push origin ft/dbdocs
 7. dbdocs build doc/db.dbml
 8. visit dbdocs.io/... link
 9. Convert dbml to sql
+
 ```bash
 dbml2sql --postgres -o  doc/schema.sql doc/db.dbml
 ```
 
 ## Dockerize application
+
 # Dockerfile
+
 1. Create Dockerfile
 2. Run Dockerfile to create images
+
 ```bash
 docker build -t simplebank:latest .
 ```
+
 3. Create a new network in docker
+
 ```bash
 docker network create bank-network
 ```
+
 4. Connect container to network (so postgres container can communicate with simplebank container)
 
 ```bash
@@ -268,19 +311,23 @@ statik -src=./doc/swagger -dest=./doc
 4. Run `make redis_standalone`
 
 ## Setup Email Verification
+
 1. Run `go get github.com/jordan-wright/email`
 2. Create `mail/sender.go`
 
 ## Migrate Postgres Library from lib/pq to pgx/v5
+
 1. Update `sqlc.yaml`, add this line in sql > gen > go (default is remove)
+
 ```bash
 sql_package: "pgx/v5"
 overrides:
    - db_type: "timestamptz"
-     go_type: "time.Time" 
+     go_type: "time.Time"
    - db_type: "uuid"
      go_type: "github.com/google/uuid.UUID"
 ```
+
 2. Change `sql.NullBool` to `pgtype.Bool`, make sure to import `pgx/v5` package
 3. Change `sql.NullString` to `pgtype.Text`, make sure to import `pgx/v5` package
 4. Change `sql.NullTime` to `pgtype.Text`, make sure to import `pgx/v5` package
@@ -294,6 +341,7 @@ overrides:
 12. Find `db.ErrRecordNotFound.Error()` and replace with `ErrRecordNotFound.Error()`
 
 ## Update GO Version or add new container
+
 1. Update `docker-compose.yaml`
 2. Update `go.mod`
 3. Update `Dockerfile`
@@ -301,5 +349,6 @@ overrides:
 5. Update `.github > workflows` script for Github Action
 
 ## Add new role
+
 1. Add new role in `util/role.go`
 2. See example file in `gapi/rpc_update_user.go`

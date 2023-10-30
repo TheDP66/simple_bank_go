@@ -46,7 +46,7 @@ func (server *Server) UpdateUser(ctx context.Context, req *pb.UpdateUserRequest)
 	if req.Password != nil {
 		hashedPassword, err := util.HashPassword(req.GetPassword())
 		if err != nil {
-			return nil, status.Errorf(codes.Internal, "failde to hash password: %s", err)
+			return nil, status.Errorf(codes.Internal, "failed to hash password: %s", err)
 		}
 
 		arg.HashedPassword = pgtype.Text{

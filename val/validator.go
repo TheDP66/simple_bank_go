@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"net/mail"
 	"regexp"
+
+	"github.com/TheDP66/simple_bank_go/util"
 )
 
 var (
@@ -70,4 +72,12 @@ func ValidateEmailId(value int64) error {
 
 func ValidateSecretCode(value string) error {
 	return ValidateString(value, 32, 128)
+}
+
+func ValidateCurrency(value string) error {
+	if util.IsSupportedCurrency(value) {
+		return nil
+	}
+
+	return fmt.Errorf("invalid currency")
 }
